@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+var fs = require('fs');
+var commitMsgFile = process.argv[2];
+var commitMsg = fs.readFileSync(commitMsgFile).toString();
+var ruleReg = /\u3010\S*?\u3011[^\u3010]*\n/g;
+if (commitMsg.indexOf('[ignore]') === 0 || commitMsg.indexOf('[autopublish]') === 0) {
+    process.exit();
+}
+else if (!commitMsg.match(ruleReg)) {
+    console.log('You may have used git commit -m, please use git commit and hit enter.');
+    process.exit(1);
+}
+else if (commitMsg.match(ruleReg).length >= 4) {
+    process.exit();
+}
+else {
+    console.log('Submission does not meet the requirements, please submit in the following format:\n【上线功能】\n【功能分类】\n【changelog】\n【测试人员】');
+    process.exit(1);
+}

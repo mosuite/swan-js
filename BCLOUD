@@ -1,0 +1,1 @@
+BUILD_SUBMITTER -x -u . -e swan2 -m baidu/hpbfe/swan-core -c "export REVISION=${REVISION} && cd baidu/hpbfe/swan-core && sh build.sh" 

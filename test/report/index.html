@@ -1,0 +1,2160 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>report</title>
+<style>
+body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
+#HTMLReporter h1 { font-size: 12px; font-weight: normal; text-align: right; margin: 10px 0 10px 0 !important; }
+#HTMLReporter { font-size: 11px; font-family: Monaco, "Lucida Console", monospace; line-height: 14px; color: #333333; }
+#HTMLReporter a { text-decoration: none; }
+#HTMLReporter a:hover { text-decoration: underline; }
+#HTMLReporter p, #HTMLReporter h1, #HTMLReporter h2, #HTMLReporter h3, #HTMLReporter h4, #HTMLReporter h5, #HTMLReporter h6 { margin: 0; line-height: 14px; }
+#HTMLReporter .banner, #HTMLReporter .symbolSummary, #HTMLReporter .summary, #HTMLReporter .resultMessage, #HTMLReporter .specDetail .description, #HTMLReporter .alert .bar, #HTMLReporter .stackTrace { padding-left: 9px; padding-right: 9px; }
+
+#HTMLReporter #jasmine_content { position: fixed; right: 100%; }
+#HTMLReporter .version { color: #aaaaaa; }
+#HTMLReporter .banner { margin-top: 14px; }
+#HTMLReporter .duration { color: #aaaaaa; float: right; }
+#HTMLReporter .exceptions { color: #fff; float: right; margin-top: 5px; margin-right: 5px; }
+#HTMLReporter .bar { line-height: 28px; font-size: 14px; display: block; color: #eee; }
+#HTMLReporter .runningAlert { background-color: #666666; }
+#HTMLReporter .skippedAlert { background-color: #aaaaaa; }
+#HTMLReporter .skippedAlert:first-child { background-color: #333333; }
+#HTMLReporter .skippedAlert:hover { text-decoration: none; color: white; text-decoration: underline; }
+#HTMLReporter .passingAlert { background-color: #a6b779; }
+#HTMLReporter .passingAlert:first-child { background-color: #5e7d00; }
+#HTMLReporter .failingAlert { background-color: #cf867e; }
+#HTMLReporter .failingAlert:first-child { background-color: #b03911; }
+#HTMLReporter .results { margin-top: 14px; }
+#HTMLReporter #details { display: none; }
+#HTMLReporter .resultsMenu { color: #999; background-color: #fff; }
+
+#HTMLReporter .summaryMenuItem { font-weight: normal; text-decoration: none; margin-right: 5px; color: #333; }
+#HTMLReporter .detailsMenuItem { font-weight: normal; text-decoration: none; margin-left: 5px; color: #999; }
+
+#HTMLReporter.showDetails .summaryMenuItem { color: #999; }
+#HTMLReporter.showDetails .detailsMenuItem { color: #333; }
+#HTMLReporter.showDetails .summaryMenuItem:hover { text-decoration: underline; }
+#HTMLReporter             .detailsMenuItem:hover { text-decoration: underline; }
+
+
+#HTMLReporter.showDetails .summary { display: none; }
+#HTMLReporter.showDetails #details { display: block; }
+#HTMLReporter .summary { margin-top: 14px; margin-bottom: 40px; }
+#HTMLReporter .summary .suite .suite, #HTMLReporter .summary .specSummary { margin-left: 14px; }
+#HTMLReporter .summary .specSummary.passed { color: #5e7d00; }
+#HTMLReporter .summary .specSummary.failed { color: #b03911; }
+#HTMLReporter .summary .specSummary.skipped { color: #ba9d37; }
+#HTMLReporter .description + .suite { margin-top: 0; }
+#HTMLReporter .suite { margin-top: 14px; }
+#HTMLReporter .suite a { color: #333333; }
+#HTMLReporter #details .specDetail { margin-bottom: 28px; }
+#HTMLReporter #details .specDetail .description { display: block; color: white; background-color: #b03911; }
+#HTMLReporter .resultMessage { padding-top: 14px; color: #333333; }
+#HTMLReporter .resultMessage span.result { display: block; }
+#HTMLReporter .stackTrace { margin: 5px 0 0 0; max-height: 224px; overflow: auto; 
+    line-height: 18px; color: #666666; border: 1px solid #ddd; background: white; white-space: pre; }
+
+
+.fold-buttons { float: right; }
+.fold-buttons a { color: #fff; font-size: 12px; }
+.fold-buttons { display: none } 
+#HTMLReporter .br { margin-top: 8px; }
+#HTMLReporter .section-starter { font-size: 14px; line-height: 18px }
+#HTMLReporter .summary-section { 
+  cursor: -webkit-zoom-out; cursor: -moz-zoom-out; cursor: zoom-out; 
+  background: #fafafa; 
+  padding: 10px; 
+  border-bottom: #eaeaea 1px solid; }
+#HTMLReporter .summary-section.folded { 
+  cursor: -webkit-zoom-in; cursor: -moz-zoom-in; cursor: zoom-in; 
+  padding-bottom: 8px;
+}
+#HTMLReporter .summary-section.folded div { display: none }
+#HTMLReporter .summary-section.folded div.section-starter { display: block }
+/*#HTMLReporter .summary-section:hover { background: #e9e9e9; }*/
+#HTMLReporter .summary-section:hover { background: #f5f5f5; }
+#HTMLReporter .summary-section-totals { 
+  font-size: 11px;
+  display: none; 
+  margin-left: 11px; 
+  overflow: hidden; 
+  position: relative;
+  top: -1px; 
+}
+#HTMLReporter .summary-section.folded .summary-section-totals { display: inline; }
+#HTMLReporter .summary-section-total { color: #fff; vertical-align: baseline; padding: 1px 8px; }
+#HTMLReporter .summary-section-total.passed { background: #5e7d00;  }
+#HTMLReporter .summary-section-total.failed { background: #b03911;  }
+#HTMLReporter .summary-section-total.skipped { background: #ba9d37;  }
+
+#HTMLReporter { font-size: 12px; line-height: 18px; } /*larget font-size*/
+
+</style>
+</head>
+
+<body id="HTMLReporter" class="html-reporter">
+<h1>Tested in HeadlessChrome 0.0.0 (Mac OS X 10.13.4) on Mon Apr 29 2019</h1>
+
+<div class="alert">
+
+
+
+  
+  <span class="passingAlert bar"><span class="fold-buttons"><a href="#" onclick="fold();">Fold</a> | 
+  <a href="#" onclick="unfold();">Unfold</a></span>360 specs, 0 failed, 0 pending</span>
+  
+
+
+</div>
+<div class="results">
+  <div class="summary">
+  
+  
+  
+  
+  
+    <div class="suite passed">
+      <span class="description">Extension</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should Extension is a class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should getShareURL extended after injectHostShareHook be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">Extension injectHostMethods</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should extend boxjs API after injectHostMethods be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught when some error happened</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">wifikey extend boxjs API</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">Extension injectHostAPI</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should injectHostAPI be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should extend method API while extension value is a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should extend obj API while extension value is a object and scope is root</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should extend obj API while extension value is a object and scope is not root</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">shold console error while extension value is a object and function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should extend debugSDK api while the SDK is debug</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">Extension injectHostComponents</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should injectHostComponents be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get response right while component has not scoped</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get response right while component has scoped</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">Extension use</span>
+    
+      <div class="specSummary passed">
+      <span class="description">extension use in master</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">extension use in slave</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be interrupt after extension use in slave without sdkAddr</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be interrupt after extension use in master without sdkAddr</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">Extension hostShareParamsProccess</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return userParams while the instance getShareURL is not a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return assigned userParams after hostShareParamsProccess be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">getAppMethods App</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return an object after App be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set rainMonitor after App be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onLaunch correctly after App be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can app hook not decorate to _hook while App.after params not includes methods</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can app hook not decorate to _hook while App.after params includes methods that out of lifecycles</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can app hook decorate to _hook</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">getAppMethods</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should emit app _hooks method after appLifeCycleEventEmitter be emitted</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">getAppMethods getApp</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should get app instance after getApp be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">getAppMethods lifeCycleEventEmitter</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call _onAppShow after lifeCycleEventEmitter emitted with type is onAppShow</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can emit nothing while the app instance not includes the event</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onLogin correctly after onLogin event dispathed</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">App life-cycle test _lifeCycleParamsHandle</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return an object and its property value is empty string while the data not includes appInfo</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return an object and its property value is string while data includes appInfo</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set referrerInfo while appInfo includes srcAppId</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">App life-cycle test _onAppShowLifeCycleParamsHandle</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correct value while data never includes appInfo</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correct value while the appInfo showBy is schema</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correct value while appInfo showBy is not schema</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">App life-cycle test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should emit ApplifeCycle after _sendAppLifeCycleMessage be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onError after _onAppError be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onPageNotFound after _onPageNotFound be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onLogin after _onLogin be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">App life-cycle test _onAppLaunch</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onLaunch after _onAppLaunch be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call _sendAppLifeCycleMessage after _onAppLaunch be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">App life-cycle test _onAppShow</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onShow after _onAppShow be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">App life-cycle test _onAppHide</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onShow after _onAppShow be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">custom-compopnents test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">custom-compopnents created</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">custom-components Instance</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Component getCustomComponentsData</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Component registerCustomComponents</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Component lifeCycle&amp;behavior</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Component dispatch&amp;event</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">ComponentcreateSelectorQuery&amp;createIntersectionObserver&amp;selectComponent</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Component props</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">detached</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter open source debug test listenFirstRender</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should reset firstRenderEnd to true while it be called again</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter open source debug test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">can openSourceDebugger decorate swan and _openSourceDebugInfo while the SDK is debug</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught while the ctsAddr is not a string</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter preLoadSubPackage</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should be return when preloadRule does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be return when subPackages does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be return when preloadRule is not a object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be return when subPackages is not instanceof Array</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return undefined when preloadRule has one value that type is not a array</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return undefined when appeal all params are right</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter decorateContext context</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should decorateContext be a function and its response is an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should masterManager be an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should define be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should require be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should swaninterface be an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should swan be an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should getCurrentPages be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should global be an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should Page be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should App be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should getApp be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should Component be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should Behavior be a function</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter</span>
+    
+      <div class="specSummary passed">
+      <span class="description">masterManager test</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return a correct decorated path after getPathFromFront be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get some app methods after getApppMethods be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call adaptMaster after adaptEnvironment be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter dispatch js advanced</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should start load files in initRender immediately</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter initRender</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return undefuned after the initRender be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter decorateSwan</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return an object after decorateSwan be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should decorated swan correctly after decorateSwan be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter bindLifeCycleEvents</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should emit one event after bindLifeCycleEvents be called and received lifecycle event</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should emit one event after bindLifeCycleEvents be called and received lifecycle event</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should emit one event after bindLifeCycleEvents be called and emit onAppShow event two times</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter handleError</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should add myerror to ctx and call _onAppError method while error event is dispatched</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter dispatchJSMaster</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return a string when devhook is undefined</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">master enter AppReady</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return a string when devhook is undefined</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return a string when devhook is true and its enverionment is webview</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return a string when devhook is true and enverionment is v8</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should showPerformancePanel be expanded to context while performancePanel equals one</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">history</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should History be a class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should historyStack be an array</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can push a history after history.pushHistory be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can pop a new history after history.popHistory be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can replace a history after history.replaceHistory be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get top slaves after history.getTopSlaves be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get all slaves after history.getAllSlaves be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can judge whether slave exists</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">history popTo</span>
+    
+      <div class="specSummary passed">
+      <span class="description">can pop to a histoy after history.popTo be called with the slave existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can not pop to a histoy after history.popTo be called with the slaveId does not exist</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">history seek</span>
+    
+      <div class="specSummary passed">
+      <span class="description">can seek the slave while the historyStack has the slave</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can seek the slave while the child has the slave</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">history clear</span>
+    
+      <div class="specSummary passed">
+      <span class="description">can clear the historyStack after history.clear be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">cover catch after clear be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">history each</span>
+    
+      <div class="specSummary passed">
+      <span class="description">can traversal slave</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can recursive traversal the slave be child</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should Navigator be a class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can set app config after setAppConfig be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onnavigateBack be a function and call popTo correctly after onnavigateBack be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should slave be recreated while the slave does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should reset allJsLoaded to fasle after pushInitSlave be called without subPackages</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator pushInitSlave</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call some method correctly after pushInitSlave be called with subPackages</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator handleNavigatorError</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call _onPageNotFound correctly after handleNavigatorError be called and the appInfo existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call _onPageNotFound correctly after handleNavigatorError be called and the appInfo does not exist</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator preCheckPageExist</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should preCheckPageExist be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return true while url existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return true while pageUrl does not exist in pages but pagesQueues</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return true while subPackages inlcudes the pageUrl</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call handleNavigatorError and return fasle while the navigation url does not exist</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator navigateTo test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should navigateTo be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get new slave info while navigatTo be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator redirectTo</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should redirectTo be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call slave redirectTo method after navigator.redirectTo be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator navigateBack</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should navigateBack be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be resolved when invoke navigateBack correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught when invoke navigateBack error</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator switchTab</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should switchTab be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call history popTo method after switchTab be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator reLaunch</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should reLaunch be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should relaunch page after reLaunch be called with params has not url</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should relaunch page after reLaunch be called and params contains url </span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator listenRoute</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should listenRoute be a function and never return</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator listenRoute only once</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should listenRoute only once</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator oninit</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should oninit be a function and never return</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator onnavigateTo test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should onnavigateTo be a function and never return</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator onredirectTo test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should onredirectTo be a function and never return</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator onreLaunch test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should onreLaunch be a function and never return</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator onswitchTab</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should onswitchTab be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should emit onTabItemTap event after navigator.onswitchTab be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator resolvePathByTopSlave</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should start char / be replaced and return path when the path is absolute</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return path when the path is not absolute</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">navigator createInitSlave</span>
+    
+      <div class="specSummary passed">
+      <span class="description">can create tabSlave after createInitSlave be called with appConfig includes tabBarList;</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can create single slave after createInitSlave be called with appConfig never includes tabBarList;</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should Slave be a class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return a bool after isCreated be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get uri after getUri be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set page instance after setUserPageInstance be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get pageInstance after getUserPageInstance be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get slaveId after getSlaveId be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get getFrontUri after getFrontUri be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get child after findChild be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get currentChild after getCurrentChildren be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get undefined when onswitchTab be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get right response when callPrivatePageMethod be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return corrently when onEnqueue be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return resolved promise after createPageInstance be called and slave status is isCreated</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call swan.reLaunch after switchTab be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave should change slaveId or status after setSlaveId be called</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should change status after setSlaveId be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should change slaveId after setSlaveId be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave reLaunch</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should reLaunch be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can call fail cb after invoke reLaunch fail</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave reLaunch can call success cb after invoke reLaunch success</span>
+    
+      <div class="specSummary passed">
+      <span class="description">params never includes root</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">params includes root</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave should return true after isTheSlave be called and the slave existed</span>
+    
+      <div class="specSummary passed">
+      <span class="description">call params is uri</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">call params is slaveId</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave init page</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should init be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly while its params has preventAppLoad</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly while it has splitAppJs but not subPackages</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave loadJs method</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should loadJs be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly when there is app.js split configuration and no subcontracting</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly when home page is a subcontract page</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave loadFirst method</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should loadFirst be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can receive slave slaveAttached</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave loadPages method</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should loadPages be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly when loadPages be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave slave open method</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should open be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">params never includes root</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">params includes root</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave openPage</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call fail and rejected when some error happened</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call success and resolved when open page success</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave redirectToPage test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should redirect be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">params not includes root</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">params includes root</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call fail and rejected when some error happened</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">TabSlave</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should TabSlave be a class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can constructMySlave create a single slave</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can isTheSlave function identife the slave with uri</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get slaveId correctly after getSlaveId be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can seek slave correctly after seekSlaveQueue be called with parameter is a uri</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can seek slave child correctly after findChild be called with parameter is a uri</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can seek slave child index correctly after findChildIndex be called with parameter is a uri</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get child index correctly after getIndexBySlaveId be called with parameter is a slaveId</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get current child correctly after getCurrentChildren be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can init slave correctly after init be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get current slave uri correctly after getUri be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can get current slave front uri correctly after getFrontUri be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can call slave methods correctly after callPrivatePageMethod be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set currentIndex when setToIndex be called with uri</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set currentIndex when setCurrentIndex be called with index</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after close be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after onEnqueue be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">TabSlave reLaunch</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should reLaunch be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after reLaunch be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">TabSlave switchTab</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should switchTab be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call success after switchTab be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">TabSlave onswitchTab test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should onswitchTab be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call getCurrentChildren correctly after onswitchTab be called could found the slave</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after onswitchTab be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after onswitchTab be called when toId does not exist in child slave</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after onswitchTab be called when toId exist in child slave</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">TabSlave redirect</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should redirect be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after redirect be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">TabSlave open</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should open be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return correctly after open be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">index test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">Page constructor test</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get current pages after getCurrentPages be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Page hooks test</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">isWriteProtected test</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">index test getInitDataAdvanced</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return initial data while pagesQueue not includes uriPath</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return decorated data while pagesQueue includes uriPath</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return decorated data while pagesQueue includes uriPath and data is undefined</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">index test createPageInstance test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">could accessUri match hook url after createPageInstance be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">could accessUri not match hook url after createPageInstance be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">index test page.after can inject token after it be called</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should Page.after be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should page hooks length increased while its options includes a url</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should page hooks length increased while its options not includes a url and the slave instance not includes accessUri</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page life-cycle test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should pageLifeCycle be an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onHide be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onUnload be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onForceReLaunch be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should pullDownRefresh be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onTabItemTap be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onReachBottom be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onPageScroll be called correctly</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call hook method correctly after _sendPageLifeCycleMessage be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page life-cycle test onLoad test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onLoad correctly after _onLoad be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught while some error happened from calling onLoad</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page life-cycle test onShow test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onShow correctly after _onShow be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught while some error happened from calling onShow</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page life-cycle test onReady test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onReady correctly after _onReady be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught while some error happened from calling onReady</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page life-cycle test share test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">share success</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">share fail</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page life-cycle test customComponent page life-cycle test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onLoad correctly after _onLoad be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call onShow be correctly after _onShow be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call pageLifetimes show correctly after _onShow be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return an object after getPagePrototypeInstance be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test data operation</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should get instance data correctly after getData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set new data correctly after setData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set set new data correctly after setData be called with arguments 1 is an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should set set new data correctly after setData be called with arguments 2 is a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should push a data correctly after pushData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should pop a data correctly after popData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should unshift a data correctly after unshiftData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should shift a data correctly after shiftData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can remove a data correctly after removeAtData be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can splice a data correctly after spliceData be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test customComponent data operation</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call nextTick after customComponent setData be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test page prototype API createCanvasContext test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return an array correctly after createCanvasContext be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test select customComponent test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should get an array correctly after selectAllComponents be called with selector is an id</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get an array correctly after selectAllComponents be called with selector is class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get an array correctly after selectAllComponents be called while it has parentId</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should get an array correctly after selectComponent be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test page prototype privateMethod test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should privateMethod be an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">sendInitData test</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call navigate correctly after privateMethod navigate be called with openType is navigate</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call redirect correctly after privateMethod navigate be called with openType is redirect</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call switchTab correctly after privateMethod navigate be called with openType is switchTab</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call reLaunch correctly after privateMethod navigate be called with openType is reLaunch</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call navigateBack correctly after privateMethod navigate be called with openType is navigateBack</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test lifecycle test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">rendered</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">onPageRender</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">reachBottom</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">onPageScroll</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">pullDownRefresh</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call send message to slave while accountChange be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call nextTick method after nextTickReach message already arrived</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return undefined while dispatchToSlave be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test lifecycle test share</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should params not includes webViewUrl after share be called from button</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should params includes webViewUrl after share be called from menu</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test callComponentMethod</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call reflectComponent method after callComponentMethod be called and its method existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should console error after callComponentMethod be called and its method does not exist</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">page prototype test callMethod</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call mockMethod correctly after callMethod be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call mockMethod again correctly after callMethod be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should SlaveEventsRouter be a class</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call some methods after initbindingEvents be called</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call history each correctly while dispatchAllSlaveEvent be called</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test callEventOccurredPageMethod</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call occurredSlave callPrivatePageMethod correctly while the slave existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return null while the slave does not exist</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test bindPrivateEvents</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should be return while the fireMessage value type is rendered</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callEventOccurredPageMethod correctly when the fireMessage value type is not rendered</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught when some error happened</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test emitPageRender</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callEventOc correctly after emitPageRender be called and abilityMessage emitted with type is </span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test callPageMethod</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return occurredSlave method response correctly while the slave existed and its method is a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return null while the slave existed but its method is not a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should return null while the slave does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught when some error happened</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test bindDeveloperEvents</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callComponentMethod correctly while events includes customEventParams</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callMethod correctly while eventOccurredPageObject includes reflectMethod</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should do nothing while the slave does not exist</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test bindEnvironmentEvents</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callEventOccurredPageMethod correctly after sharebtn event was dispathed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call dispatchAllSlaveEvent correctly after accountChange event was dispathed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call reLaunch correctly after backtohome event was dispathed and from relaunch</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call reLaunch correctly after backtohome event was dispathed but is not from relaunch</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">backtohome events from relanch but currentSlaveUrl equal topSlave accessUri </span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test bindLifeCycleEvent</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callPageMethod correctly after PagelifeCycle event was emitted</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callPageMethod correctly after onHide emitted</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should fire onTabItemTap event correctly after onTabItemTap dispatched</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test bindLifeCycleEvent onTabItemTap event</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should return undefined after onTabItemTap emitted from switchTab</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callPageMethod correctly after onTabItemTap emitted never from switchTab and the slave existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callPageMethod correctly after onTabItemTap emitted never from switchTab and the slave does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call callPageMethod correctly after onTabItemTap emitted from switchTab again</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slaveEventsRouter test bindLifeCycleEvent onForceReLaunch</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should call redirectTo correctly while the currentSlave existed</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call reLaunch correctly while the currentSlave does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call reLaunch correctly while the onForceReLaunch is not a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should be caught and call reLaunch correctly when some error happened</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should processedAPI is an object</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should getContextOperators be a function and it has a correct response</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi navigator</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should navigateTo be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should navigateBack be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should redirectTo be function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should switchTab be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should reLaunch be a function</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi reportAnalytics</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should reportAnalytics be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should reportAnalytics has a correct response</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi setPageInfo</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should setPageInfo be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should setPageInfo has a correct response</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi openShare</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should openShare be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should reportAnalytics has a correct response</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi login API</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should login be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should call originSwan login after login be called with app onshow</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can send it arbitrarily when it does not exist in the show app lifecycles</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">can send it arbitrarily when it does not exist in the show page lifecycles</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi onUserCaptureScreen API</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should onUserCaptureScreen be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should onUserCaptureScreen has a correct response</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi nextTick API</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should nextTick be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should nextTick cb be called correctly in the next time period</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi sendFrameWorkLog</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should sendFrameWorkLog be a function</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">processapi after test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">should after be a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">actions property value is not a function</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should actions property value be a function and has some correct response</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should actions property value be an object while the success and returning does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should actions property value be an object while the returning does not exist</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">should actions property value be an object while the success and returning existed</span>
+      </div>
+    
+    </div>
+  
+    <div class="suite passed">
+      <span class="description">slave test</span>
+    
+      <div class="specSummary passed">
+      <span class="description">slave created</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">componentFactory created</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">pageRender created</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Page and custom create early</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Page and custom create after advanced dispatch js</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Page and custom create</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">page initData</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">custom as Page</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">page browserPatch touchstart</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">page browserPatch touchend</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">page browserPatch touchcancel</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">openSourceDebugger</span>
+      </div>
+    
+      <div class="specSummary passed">
+      <span class="description">Page loadHook</span>
+      </div>
+    
+    </div>
+  
+  
+</div>
+
+<div id="details">
+  
+</div>
+
+<script>
+
+var folded = false;
+
+document.body.onkeypress = function (e) {
+  if (!e || !e.keyCode) return;
+  switch (e.keyCode) {
+    case 102: toggleFold(); break;
+    case 49: showSummary(); break;
+    
+  }
+};
+
+function showSummary() { document.body.className = "html-reporter showSummary"; }
+function showFailures() { document.body.className = "html-reporter showDetails"; }
+
+function toggleSection(el) {
+  el.className = el.className === 'summary-section' ? 'summary-section folded' : 'summary-section';
+}
+
+function toggleFold() { (folded) ? unfold() : fold(); }
+function fold() {
+  var els = document.querySelectorAll('.summary-section');
+  for (var i = 0; i < els.length; i++) {
+    els[i].className = 'summary-section folded';
+  }
+  folded = true;
+}
+function unfold() {
+  var els = document.querySelectorAll('.summary-section');
+  for (var i = 0; i < els.length; i++) {
+    els[i].className = 'summary-section';
+  }
+  folded = false;
+}
+
+</script>
+
+
+</body>
+</html>
+

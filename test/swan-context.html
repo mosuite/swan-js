@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>swan-core Spec Runner</title>
+</head>
+
+<body>
+    <script src="context.js"></script>
+    <script type="text/javascript">
+        (function (global) {
+            // 统一装饰global
+            global.swanGlobal = undefined;
+            global.swanVersion = '8.8.8';
+            global.feMasterPreloadStart = Date.now();
+            global.isMaster = true;
+            global._envVariables = {
+                sdkExtension: 'http://b.bdstatic.com/searchbox/icms/searchbox/js/swantest',
+                ctsJsAddress: {
+                    master: [],
+                    slave: []
+                }
+            }
+        })(window);
+
+        // Configure our Karma and set up bindings
+        %CLIENT_CONFIG%
+        window.__karma__.setupContext(window);
+        // All served files with the latest timestamps
+        %MAPPINGS%
+    </script>
+    <!-- Dynamically replaced with <script> tags -->
+    %SCRIPTS%
+    <script type="text/javascript">
+        window.__karma__.loaded();
+        var swanGlobal = undefined
+    </script>
+</body>
+
+</html>
